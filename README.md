@@ -1,14 +1,23 @@
 # Landmarks
 
-## Installation and a quick try
+Landmark are a fast navigation facility for emacs. It is based on
+emacs "registers" but it is much faster to use. The main idea is to
+attach (some kind of) registers to keyboard keys (typically a numpad
+key or an "f" key) instead of characters. Hitting just one key makes
+the jump, and a simple keystroke sets the landmark.
 
-Load the file landmarks and put it in a directory known to emacs. Then add the following line to your init file:
+## Installation
+
+Load the file landmarks and put it in a directory known to emacs. Then
+add the following line to your init file:
 
 ```elisp
 (require 'landmark)
 ```
 
-And follow one of the 2 sections below.
+## Configuration: a quick try
+
+Follow one of the 2 sections below.
 
 ### If you have a numeric pad on your keyboard
 
@@ -21,33 +30,40 @@ for testing purposes):
 
 Be aware that these lines assign global keybindings to you numpad keys.
 
-Now open a file, go somewhere and hit `C-S-kp-1` (control + numpad 0),
-then move the point around and hit `kp-1` (numpad 0), you should jump
-immediately to the place where you hit `C-S-kp-1`.
+#### quick test
 
-Then open a new file, hit `kp-1`, you should be right back to previous
+Now open a file, go somewhere and hit `C-S-kp-1` (control + shift +
+numpad 0), then move the point around and hit `kp-1` (numpad 1), you
+should jump immediately to the place where you hit `C-S-kp-1`. Notice
+how by default the stored position is highlighted. This is
+configurable (see section Explanations and configurations).
+
+Open a new file, hit `kp-1`, you should be right back to previous
 buffer at the same stored position.
 
-Go back to the second buffer, hit `C-kp-2`. This time you memorize the
-buffer, but no particular location in it. Hitting `kp-1` and `kp-2`
-makes you go back and forth.
+Go back to the second buffer, hit `C-kp-2`. This time you memorized
+the buffer, but no particular location in it. Hitting `kp-1` still
+works, and `kp-2` makes you go back to the second buffer at current
+point.
 
-Memo: the `C-` prefix means 'store buffer only' and `C-S-` means
-'store the precise location inthe buffer'.
+Mnemo: the `C-` prefix means 'store buffer only' and `C-S-` means
+'store the precise location in the buffer'. The longer is the prefix,
+the more precise is the landmark.
 
 ### Or if you have "fn" keys your keyboard
 
+Put this in you ini file (or simply evaluate this directly in emacs
+for testing purposes):
+
 ```elisp
-(require 'landmark)
 (landmark-assign-fn-config)  ;; if you have "fn" keys
 ```
 
 Be aware that these lines assign global keybindings to you F5 to F9
 keys.
 
-
-Follow the same tests as in previous section replacing `kp-1` with
-`f1` and `kp-2` with `f2`.
+Follow the same steps as in previous section "quick test", replacing
+`kp-1` with `f1` and `kp-2` with `f2`.
 
 
 ## Explanations and configurations
@@ -59,10 +75,6 @@ might want to come back later. Unlike registers it is either
   at its current point position)
 - or a precise position in a buffer (\"position landmark\").
 
-Position landmarks are (by default) visible in the buffer. This is
-controlled by `landmark-face', `landmark-show-landmark-position' and
-`landmark-show-landmark-fringe'.
-
 Like registers, each landmark is identified uniquely by a character
 but this is anecdotical. More importantly it is also (by default)
 attached to a **key of your keyboard**.
@@ -70,19 +82,19 @@ attached to a **key of your keyboard**.
 For example, say we take the f1 key for landmark ?1, then the
 following invocation:
 
-`(landmark-assign-three-standard-keys ?1 \'f1)'
+`(landmark-assign-three-standard-keys ?1 \'f1)`
 
 sets *global keybindings* such that:
 
 - hitting C-f1 sets landmark ?1 to current buffer (function
-  `landmark-of-buffer').
+  `landmark-of-buffer`).
 
 - hitting C-S-f1 sets landmark ?1 to current position (function
-  `landmark-of-position').
+  `landmark-of-position`).
 
 - hitting f1 itself jumps to the landmark ?1 (which makes it much
   faster than any keybindings for registers) (function
-  `landmark-jump').
+  `landmark-jump`).
 
 One can chose any key but chosing a self inserting key would be
 harmful since the self insertion would be lost (unless you change
@@ -91,21 +103,40 @@ modifiers, see below). Numpad keys are a good choice:
   (landmark-assign-three-standard-keys ?0 'kp-0)
   (landmark-assign-three-standard-keys ?0 'kp-insert)
 
-See `landmark-assign-kp-n-config' to assign all numpad keys at once.
+See `landmark-assign-kp-n-config` to assign all numpad keys at once.
 
 One can also change the modifiers (C- and C-S- above) at will
-using the function `landmark-assign-keys'. Typically:
+using the function `landmark-assign-keys`. Typically:
 
   (landmark-assign-keys ?1 [(meta kp-1)] [(control kp-1)] [(shift kp-1)])
   (landmark-assign-keys ?1 [(meta kp-end)] [(control kp-end)] [(shift kp-end)])
 
 (Be careful with shift and numpad, as shift changes kp-1 into kp-end).
 
+### Visual feedback
+
+Position landmarks are by default visible in the buffer. This is
+configurable using `landmark-face`, `landmark-show-landmark-position`
+and `landmark-show-landmark-fringe`.
+
 
 ### Note about numpad keys
-
 Be careful with shift and numpad: the shift modifier changes kp-1 into
 kp-end for instance (and similarly for all kp-xxx keys). you should do
 some test to make this work with `landmark-assign-keys` as explained
 above. The predefined `landmark-assign-kp-n-config` applies the
 keybindings to both variants of each key.
+
+### predefined settings
+
+Two function allow to set predefined global keybindings:
+
+```elisp
+(landmark-assign-kp-n-config)
+```
+for binding `kp-0` to `kp-9`, and
+
+```elisp
+(landmark-assign-fn-config)
+```
+for binding `f-5` to `f-9`.
