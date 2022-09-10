@@ -1,6 +1,8 @@
 # Landmarks
 
-Landmark are a fast navigation facility for emacs. It is based on
+This package provides so called "landmarks" to emacs.
+
+Landmarks are a fast navigation facility for emacs. It is based on
 emacs "registers" but it is much faster to use. The main idea is to
 attach (some kind of) registers to keyboard keys (typically a numpad
 key or an "f" key) instead of characters. Hitting just one key makes
@@ -8,8 +10,8 @@ the jump, and a simple keystroke sets the landmark.
 
 ## Installation
 
-Load the file landmarks and put it in a directory known to emacs. Then
-add the following line to your init file:
+Load the file `landmarks.el` and put it in a directory known to emacs.
+Then add the following line to your init file:
 
 ```elisp
 (require 'landmark)
@@ -30,10 +32,10 @@ for testing purposes):
 
 Be aware that these lines assign global keybindings to you numpad keys.
 
-#### quick test
+#### Quick Test
 
 Now open a file, go somewhere and hit `C-S-kp-1` (control + shift +
-numpad 0), then move the point around and hit `kp-1` (numpad 1), you
+numpad 1), then move the point around and hit `kp-1` (numpad 1), you
 should jump immediately to the place where you hit `C-S-kp-1`. Notice
 how by default the stored position is highlighted. This is
 configurable (see section Explanations and configurations).
@@ -66,7 +68,7 @@ Follow the same steps as in previous section "quick test", replacing
 `kp-1` with `f1` and `kp-2` with `f2`.
 
 
-## Explanations and configurations
+## Explanations and Configurations
 
 Similarly to an emacs registers, a *landmark* is a location where you
 might want to come back later. Unlike registers it is either
@@ -100,27 +102,31 @@ One can chose any key but chosing a self inserting key would be
 harmful since the self insertion would be lost (unless you change
 modifiers, see below). Numpad keys are a good choice:
 
-  (landmark-assign-three-standard-keys ?0 'kp-0)
-  (landmark-assign-three-standard-keys ?0 'kp-insert)
+```elisp
+(landmark-assign-three-standard-keys ?0 'kp-0)
+(landmark-assign-three-standard-keys ?0 'kp-insert)
+```
 
 See `landmark-assign-kp-n-config` to assign all numpad keys at once.
 
 One can also change the modifiers (C- and C-S- above) at will
 using the function `landmark-assign-keys`. Typically:
 
-  (landmark-assign-keys ?1 [(meta kp-1)] [(control kp-1)] [(shift kp-1)])
-  (landmark-assign-keys ?1 [(meta kp-end)] [(control kp-end)] [(shift kp-end)])
-
+```elisp
+(landmark-assign-keys ?1 [(meta kp-1)] [(control kp-1)] [(shift kp-1)])
+(landmark-assign-keys ?1 [(meta kp-end)] [(control kp-end)] [(shift kp-end)])
+```
 (Be careful with shift and numpad, as shift changes kp-1 into kp-end).
 
 ### Visual feedback
 
-Position landmarks are by default visible in the buffer. This is
+Position landmarks are by default highlighted (box style). This is
 configurable using `landmark-face`, `landmark-show-landmark-position`
 and `landmark-show-landmark-fringe`.
 
 
 ### Note about numpad keys
+
 Be careful with shift and numpad: the shift modifier changes kp-1 into
 kp-end for instance (and similarly for all kp-xxx keys). you should do
 some test to make this work with `landmark-assign-keys` as explained
@@ -129,7 +135,8 @@ keybindings to both variants of each key.
 
 ### predefined settings
 
-Two function allow to set predefined global keybindings:
+By default requiring `landmark` does not create any keybinding. Two
+functions allow to set predefined *global* keybindings:
 
 ```elisp
 (landmark-assign-kp-n-config)
@@ -140,3 +147,5 @@ for binding `kp-0` to `kp-9`, and
 (landmark-assign-fn-config)
 ```
 for binding `f-5` to `f-9`.
+
+For more control see section Explanations and Configurations above.
