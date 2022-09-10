@@ -2,11 +2,11 @@
 
 This package provides so called "landmarks" to emacs.
 
-Landmarks are a fast navigation facility for emacs. It is based on
-emacs "registers" but it is much faster to use. The main idea is to
-attach (some kind of) registers to keyboard keys (typically a numpad
-key or an "f" key) instead of characters. Hitting just one key makes
-the jump, and a simple keystroke sets the landmark.
+Landmarks are a fast navigation facility for emacs, based on emacs
+"registers", but faster to use. The main idea is to attach (some kind
+of) registers to **keyboard keys** (typically a numpad key or an "f"
+key) instead of characters. Hitting just one key makes the jump, and a
+simple keystroke sets the landmark.
 
 ## Installation
 
@@ -30,7 +30,8 @@ for testing purposes):
 (landmark-assign-kp-n-config) ;; if you have a numpad
 ```
 
-Be aware that these lines assign global keybindings to you numpad keys.
+Be aware that it loads predefined **global** keybindings for numpad
+keys.
 
 #### Quick Test
 
@@ -61,7 +62,7 @@ for testing purposes):
 (landmark-assign-fn-config)  ;; if you have "fn" keys
 ```
 
-Be aware that these lines assign global keybindings to you F5 to F9
+Be aware that it load predefined **global** keybindings to F5 to F9
 keys.
 
 Follow the same steps as in previous section "quick test", replacing
